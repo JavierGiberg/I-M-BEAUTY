@@ -3,32 +3,54 @@ import "./App.css";
 import Slider from "./components/slider/Slider";
 import Footer from "./components/Footer";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Gallery from "./components/Gallery";
-import VideoJS from "./components/VideoJS";
 import Card from "./components/Card";
-import { picC, video } from "./store/data";
 import { FaArrowsAltH } from "react-icons/fa";
-
+import AddProductForm from "./components/AddProductForm";
+import firebase from "./FirebaseConfig";
 //Developed by Javier Giberg
 function App() {
+  const [product, setProduct] = useState([]);
   const [titleNav, setTitleNav] = useState("עמוד הבית");
+
+  const db = firebase.firestore();
+
+  useEffect(() => {
+    db.collection("product")
+      .get()
+      .then((snapshot) => {
+        if (snapshot.docs.length > 0) {
+          snapshot.docs.forEach((doc) => {
+            setProduct((prev) => {
+              return [...prev, doc.data()];
+            });
+          });
+        }
+      });
+    console.log("i fire once");
+    console.log(product);
+  }, [db]);
 
   const Home = () => {
     return (
       <div className="container">
+        <section className="slider">
+          <Slider picC={product} />
+        </section>
         <div className="main">
-          <img alt="Pic" src="image/mainPic.png" />
+          <img alt="Pic" src="image/test2.jpg" />
+
           <div className="titlesMains">
             <div className="titlesMain">
-              <h1>מוצרים</h1>
+              <h1>לכל המוצרים</h1>
               <Link
                 onClick={() => {
                   setTitleNav("מוצרים");
                 }}
-                to={"/מוצרים"}
+                to={"/Gallery"}
               >
-                <img alt="Pic" src="image/test1.jpg" />
+                <img alt="Pic" src="image/allproduct.png" />
               </Link>
             </div>
 
@@ -39,21 +61,19 @@ function App() {
                 onClick={() => {
                   setTitleNav("מוצרים1");
                 }}
-                to={"/מוצרים1"}
+                to={"/AddProduct"}
               >
                 <img alt="Pic" src="image/test2.jpg" />
               </Link>
             </div>
           </div>
         </div>
-        <div className="slider">
-          <Slider picC={picC} />
-        </div>
+
         <div className="footer">
           <div className="card">
             <h1>מוצרים3 </h1>
             <FaArrowsAltH size="50px" />
-            <Card />
+            <Card product={product} />
           </div>
           <Footer />
         </div>
@@ -71,9 +91,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route
           path="/Gallery"
-          element={<Gallery picC={picC} columnCount="2" gap="5" />}
+          element={<Gallery product={product} columnCount="2" gap="5" />}
         />
-        <Route path="/Video" element={<VideoJS video={video} />} />
+        <Route path="/AddProduct" element={<AddProductForm />} />
       </Routes>
     </Router>
   );

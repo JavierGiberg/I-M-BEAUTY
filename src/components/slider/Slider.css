@@ -1,5 +1,5 @@
 .slider_container{
-   height: 450px;
+   height: 250px;
    margin: auto;
    position: relative;
    width: 100%;
@@ -31,8 +31,8 @@
   
 }
 .imgZ{
-    height: 450px;
-    width: 450px;
+    height: 250px;
+    width: 250px;
     transition: transform 0.5s;
     padding: 5px;
 }

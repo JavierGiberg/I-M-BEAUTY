@@ -20,7 +20,7 @@ a {
 .nav {
   display: flex;
   align-items: center;
-  background-color: #e5bac1;
+  background-color: #e5d3d3;
   justify-content: space-around;
   height: 10vh;
   padding: 10px;
@@ -30,7 +30,7 @@ a {
   
 }
 .nav-brand{
-  font-size: 40px;
+  font-size: 25px;
 }
 
 .nav-item{
@@ -72,11 +72,11 @@ a {
   .nav-menu {
     position: fixed;
     z-index: 1;
-    top: 29vh;
+    top: 10vh;
     right: 1.8vh;
     height: 53vh;
     width: 40vw;
-    background-color: #e5bac1;
+    background-color: #e5d3d3;
     flex-direction: column-reverse ;
     transform: translateX(100%);
     transition: 0.5s ease-in;

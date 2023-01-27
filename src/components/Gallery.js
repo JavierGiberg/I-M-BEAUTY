@@ -4,13 +4,13 @@ import "./Gallery.css";
 function Gallery(props) {
   const [imageBool, setImageBoll] = useState(false);
   const [tempPic, setTempPic] = useState();
-
+  console.log(props);
   const ImageView = () => {
     return (
       <div className="imageView_container">
         <div className="imageView">
           <section>
-            <img src={tempPic.image} />
+            <img src={tempPic.image} alt="" />
           </section>
         </div>
         <div className="call_item">
@@ -24,7 +24,7 @@ function Gallery(props) {
           <h2>Send message</h2>
 
           <a href="https://wa.me/972507644343">
-            <img src="image/whatsapp.png" width="100px" />
+            <img src="image/whatsapp.png" width="100px" alt="" />
           </a>
         </div>
       </div>
@@ -38,7 +38,7 @@ function Gallery(props) {
       ) : (
         <div className="concontainer_Gallery">
           <div style={{ columns: props.columnCount, columnGap: 0 }}>
-            {props.picC.map((img, index) => (
+            {props.product.map((img, index) => (
               <section
                 key={index}
                 onClick={() => {
@@ -47,7 +47,9 @@ function Gallery(props) {
                 }}
                 style={{ padding: props.gap / 2 }}
               >
-                {!imageBool && <img src={img.image} className="imageGallery" />}
+                {!imageBool && (
+                  <img src={img.image} alt="" className="imageGallery" />
+                )}
               </section>
             ))}
           </div>
