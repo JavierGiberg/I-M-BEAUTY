@@ -37,24 +37,24 @@ function Navbar({ titleNav, setTitleNav }) {
           <li className="nav-item">
             <Link
               onClick={() => {
-                setTitleNav("מוצרים1");
+                setTitleNav("מבצעים");
                 navToggle();
               }}
-              to={"/Video"}
+              to={"/מבצעים"}
             >
-              1מוצרים
+              חבילות מבצע
             </Link>
           </li>
           <li className="nav-item">
             <Link
               onClick={() => {
-                setTitleNav("מוצרים2");
+                setTitleNav("כל המוצרים");
                 navToggle();
               }}
               to="/Gallery"
               className="nav-link"
             >
-              מוצרים2
+              כל המוצרים
             </Link>
           </li>
           <li className="nav-item">

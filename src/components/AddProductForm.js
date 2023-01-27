@@ -1,6 +1,7 @@
 import { useState } from "react";
+import "./AddProductForm.css";
 import FirebaseFirestoreService from "../FirebaseFirestoreService";
-function AddProductForm() {
+function AddProductForm(props) {
   function handleRecipeformsubmit(e) {
     handleAddProduct(e);
   }
@@ -15,61 +16,73 @@ function AddProductForm() {
       alert(error);
     }
   }
+  function Filter(props) {
+    return props.filter.map((colle, index) => (
+      <option key={index} value={colle.collection}>
+        {colle.collection}
+      </option>
+    ));
+  }
 
   return (
-    <div className="AddDreams_Background">
-      <div className="AddDreams_Container">
-        <div className="AddDreams_titleCloseBtn">
-          <button>X</button>
+    <div className="AddProductForm_container">
+      <div className="AddProductForm_lis_container">
+        <h1>אוסף מוצר לחנות</h1>
+        <div className="AddProductForm_list">
+          <ul>
+            <li>
+              <select
+                id="category"
+                onChange={(e) => props.select(e.target.value)}
+              >
+                <Filter filter={props.sortlist} />
+              </select>
+            </li>
+            <br />
+            <li>
+              <input id="mcode" placeholder="הכנס מק'ט מוצר"></input>
+            </li>
+            <br />
+            <li>
+              <input id="details" placeholder="הכנס פרטי מוצר"></input>
+            </li>
+            <br />
+            <li>
+              <input id="src" placeholder="הכנס קישור לתמונה"></input>
+            </li>
+            <br />
+            <li>
+              <input id="price" placeholder="הכנס מחיר"></input>
+            </li>
+          </ul>
         </div>
-        <div className="AddDreams_title">
-          <h3>Add product</h3>
-          <div className="AddDreams_list">
-            <ul className="AddDreams_list_ul">
-              <li>
-                *<input id="src" placeholder="Enter Url image"></input>
-              </li>
-              <br />
-              <li>
-                *<input id="details" placeholder="Enter details"></input>
-              </li>
-              <br />
-              <li>
-                *<input id="category" placeholder="Enter category"></input>
-              </li>
-              <br />
-              <li>
-                *<input id="price" placeholder="Enter price"></input>
-              </li>
-            </ul>
-          </div>
-        </div>
+      </div>
 
-        <div className="AddDreams_footer">
-          <button>Cancel</button>
-          <button
-            onClick={() => {
-              const image = document.getElementById("src").value;
-              const price = document.getElementById("price").value;
-              const category = document.getElementById("category").value;
-              const details = document.getElementById("details").value;
-              if (!image || !price || !category || !details === null) {
-                alert("You must fill in all fields");
-              } else {
-                alert("מוצר התווסף בהצלחה");
+      <div className="">
+        <button
+          onClick={() => {
+            const image = document.getElementById("src").value;
+            const price = document.getElementById("price").value;
+            const category = document.getElementById("category").value;
+            const details = document.getElementById("details").value;
+            const mcode = document.getElementById("mcode").value;
+            if (!image || !price || !category || !details === null) {
+              alert("You must fill in all fields");
+            } else {
+              alert("מוצר התווסף בהצלחה");
 
-                handleRecipeformsubmit({
-                  image,
-                  category,
-                  details,
-                  price,
-                });
-              }
-            }}
-          >
-            Add
-          </button>
-        </div>
+              handleRecipeformsubmit({
+                image,
+                category,
+                details,
+                price,
+                mcode,
+              });
+            }
+          }}
+        >
+          Add
+        </button>
       </div>
     </div>
   );

@@ -4,7 +4,15 @@ import "./Gallery.css";
 function Gallery(props) {
   const [imageBool, setImageBoll] = useState(false);
   const [tempPic, setTempPic] = useState();
-  console.log(props);
+
+  function Filter(props) {
+    return props.filter.map((colle, index) => (
+      <option key={index} value={colle.collection}>
+        {colle.collection}
+      </option>
+    ));
+  }
+
   const ImageView = () => {
     return (
       <div className="imageView_container">
@@ -23,7 +31,7 @@ function Gallery(props) {
           </h2>
           <h2>Send message</h2>
 
-          <a href="https://wa.me/972507644343">
+          <a href="https://wa.me/000000000">
             <img src="image/whatsapp.png" width="100px" alt="" />
           </a>
         </div>
@@ -33,6 +41,14 @@ function Gallery(props) {
 
   return (
     <div className="containerG">
+      <div className="search_container">
+        <select
+          className="search-bar"
+          onChange={(e) => props.select(e.target.value)}
+        >
+          <Filter filter={props.sortlist} />
+        </select>
+      </div>
       {imageBool ? (
         <ImageView />
       ) : (
@@ -58,4 +74,5 @@ function Gallery(props) {
     </div>
   );
 }
+
 export default Gallery;

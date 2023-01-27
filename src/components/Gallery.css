@@ -1,5 +1,5 @@
 .containerG{
-    margin-top: 110px;
+    margin-top: 80px;
 }
 .imageGallery{
     display: block;
@@ -20,6 +20,18 @@
     flex-direction: column;
     align-items: center;
     
+}
+.search_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.search-bar{
+    display: flex;
+    background-color: #e5d3d3;
+   
 }
 
 

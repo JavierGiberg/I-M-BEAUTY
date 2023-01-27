@@ -13,7 +13,44 @@ import firebase from "./FirebaseConfig";
 function App() {
   const [product, setProduct] = useState([]);
   const [titleNav, setTitleNav] = useState("עמוד הבית");
-
+  const [sortlist] = useState([
+    //state for filter product
+    {
+      collection: "כל המותגים",
+    },
+    {
+      collection: "LA BEAUTE",
+    },
+    {
+      collection: "OLAPLEX",
+    },
+    {
+      collection: "PEPTID+",
+    },
+    {
+      collection: "SCHWARZKOPF",
+    },
+    {
+      collection: "KASHMIR",
+    },
+    {
+      collection: "COS ME TIK",
+    },
+    {
+      collection: "BIOTOP",
+    },
+    {
+      collection: "PAUL MITCHELL",
+    },
+    {
+      collection: "SUPREMA COLOR",
+    },
+    {
+      collection: "SCHWARTZ",
+    },
+  ]);
+  const [productTemp, setListTemp] = useState([]);
+  const [selected, setSelected] = useState("כל המותגים");
   const db = firebase.firestore();
 
   useEffect(() => {
@@ -28,9 +65,24 @@ function App() {
           });
         }
       });
-    console.log("i fire once");
-    console.log(product);
   }, [db]);
+
+  function select(e) {
+    //fuc for filter
+    setSelected(e);
+    Filter(e);
+  }
+
+  const Filter = (category) => {
+    //fuc  filter
+    let temp = productTemp;
+    if (!(category === "כל המותגים")) {
+      temp = productTemp.filter((pordu) => pordu.category === category);
+      setProduct(temp);
+    } else {
+      setProduct(productTemp);
+    }
+  };
 
   const Home = () => {
     return (
@@ -46,7 +98,7 @@ function App() {
               <h1>לכל המוצרים</h1>
               <Link
                 onClick={() => {
-                  setTitleNav("מוצרים");
+                  setTitleNav("כל המוצרים");
                 }}
                 to={"/Gallery"}
               >
@@ -55,13 +107,11 @@ function App() {
             </div>
 
             <div className="titlesMain">
-              <h1>מוצרים1</h1>
-
               <Link
                 onClick={() => {
-                  setTitleNav("מוצרים1");
+                  setTitleNav("מבצעים");
                 }}
-                to={"/AddProduct"}
+                to={"/מבצעים"}
               >
                 <img alt="Pic" src="image/test2.jpg" />
               </Link>
@@ -71,7 +121,6 @@ function App() {
 
         <div className="footer">
           <div className="card">
-            <h1>מוצרים3 </h1>
             <FaArrowsAltH size="50px" />
             <Card product={product} />
           </div>
@@ -91,9 +140,20 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route
           path="/Gallery"
-          element={<Gallery product={product} columnCount="2" gap="5" />}
+          element={
+            <Gallery
+              product={product}
+              sortlist={sortlist}
+              select={select}
+              columnCount="2"
+              gap="5"
+            />
+          }
         />
-        <Route path="/AddProduct" element={<AddProductForm />} />
+        <Route
+          path="/AddProduct"
+          element={<AddProductForm sortlist={sortlist} />}
+        />
       </Routes>
     </Router>
   );
