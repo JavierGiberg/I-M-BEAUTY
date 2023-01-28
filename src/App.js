@@ -49,8 +49,7 @@ function App() {
       collection: "SCHWARTZ",
     },
   ]);
-  const [productTemp, setListTemp] = useState([]);
-  const [selected, setSelected] = useState("כל המותגים");
+
   const db = firebase.firestore();
 
   useEffect(() => {
@@ -66,23 +65,6 @@ function App() {
         }
       });
   }, [db]);
-
-  function select(e) {
-    //fuc for filter
-    setSelected(e);
-    Filter(e);
-  }
-
-  const Filter = (category) => {
-    //fuc  filter
-    let temp = productTemp;
-    if (!(category === "כל המותגים")) {
-      temp = productTemp.filter((pordu) => pordu.category === category);
-      setProduct(temp);
-    } else {
-      setProduct(productTemp);
-    }
-  };
 
   const Home = () => {
     return (
@@ -144,7 +126,6 @@ function App() {
             <Gallery
               product={product}
               sortlist={sortlist}
-              select={select}
               columnCount="2"
               gap="5"
             />

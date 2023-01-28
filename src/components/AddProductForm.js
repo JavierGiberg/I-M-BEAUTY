@@ -31,10 +31,7 @@ function AddProductForm(props) {
         <div className="AddProductForm_list">
           <ul>
             <li>
-              <select
-                id="category"
-                onChange={(e) => props.select(e.target.value)}
-              >
+              <select id="category">
                 <Filter filter={props.sortlist} />
               </select>
             </li>

@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import "./Gallery.css";
 
 function Gallery(props) {
+  const [product, setProduct] = useState(props.product);
   const [imageBool, setImageBoll] = useState(false);
   const [tempPic, setTempPic] = useState();
+  const [productTemp, setListTemp] = useState(props.product);
+  const [selected, setSelected] = useState("כל המותגים");
 
   function Filter(props) {
     return props.filter.map((colle, index) => (
@@ -12,6 +15,28 @@ function Gallery(props) {
       </option>
     ));
   }
+
+  function select(e) {
+    console.log("product" + product);
+    console.log("temp" + productTemp);
+    //fuc for filter
+    console.log(e);
+    setSelected(e);
+    Filters(e);
+    console.log("product" + product);
+    console.log("temp" + productTemp);
+  }
+
+  const Filters = (category) => {
+    //fuc  filter
+    let temp = productTemp;
+    if (!(category === "כל המותגים")) {
+      temp = productTemp.filter((pordu) => pordu.category === category);
+      setProduct(temp);
+    } else {
+      setProduct(productTemp);
+    }
+  };
 
   const ImageView = () => {
     return (
@@ -42,10 +67,7 @@ function Gallery(props) {
   return (
     <div className="containerG">
       <div className="search_container">
-        <select
-          className="search-bar"
-          onChange={(e) => props.select(e.target.value)}
-        >
+        <select className="search-bar" onChange={(e) => select(e.target.value)}>
           <Filter filter={props.sortlist} />
         </select>
       </div>
@@ -54,7 +76,7 @@ function Gallery(props) {
       ) : (
         <div className="concontainer_Gallery">
           <div style={{ columns: props.columnCount, columnGap: 0 }}>
-            {props.product.map((img, index) => (
+            {product.map((img, index) => (
               <section
                 key={index}
                 onClick={() => {
