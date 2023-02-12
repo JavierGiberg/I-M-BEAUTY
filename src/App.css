@@ -99,6 +99,20 @@
     background-color: white;
 
 }
+.video_home{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin-top: 80px;
+    justify-content: center;
+    align-items: center;
+}
+.video_home video{
+   
+    width:390px;
+ 
+   
+}
 
 
 .header { grid-area: header; }
@@ -170,7 +184,14 @@ article:nth-of-type(4) {
     article:nth-of-type(4) {
         grid-column: auto;
     }
-    
+    .video_home{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        
+        justify-content: center;
+        align-items: center;
+    }
 
 }
 

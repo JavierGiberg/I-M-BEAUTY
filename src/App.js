@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import Gallery from "./components/Gallery";
 import Card from "./components/Card";
 import { FaArrowsAltH } from "react-icons/fa";
-import AddProductForm from "./components/AddProductForm";
+import AddProductForm from "./components/Manager/AddProductForm";
 import firebase from "./FirebaseConfig";
 //Developed by Javier Giberg
 function App() {
@@ -89,13 +89,14 @@ function App() {
             </div>
 
             <div className="titlesMain">
+              <h1> חבילות ומבצעים</h1>
               <Link
                 onClick={() => {
                   setTitleNav("מבצעים");
                 }}
                 to={"/מבצעים"}
               >
-                <img alt="Pic" src="image/test2.jpg" />
+                <img alt="Pic" src="image\tets1.jpg" />
               </Link>
             </div>
           </div>
@@ -119,7 +120,17 @@ function App() {
         </div>
       </div>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <div>
+              <div className="video_home">
+                <video src="video/video1.MP4" autoPlay loop muted />
+              </div>
+              <Home />
+            </div>
+          }
+        />
         <Route
           path="/Gallery"
           element={

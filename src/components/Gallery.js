@@ -47,6 +47,9 @@ function Gallery(props) {
           </section>
         </div>
         <div className="call_item">
+          <h2>{tempPic.category}</h2>
+          <h2>{tempPic.details}</h2>
+          <h2>{tempPic.price}: מחיר</h2>
           <h2
             onClick={() => {
               setImageBoll(false);

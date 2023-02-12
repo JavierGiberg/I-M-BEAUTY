@@ -1,7 +1,10 @@
 import { useState } from "react";
 import "./AddProductForm.css";
-import FirebaseFirestoreService from "../FirebaseFirestoreService";
+import ImageUploadPreview from "./ImagesUploadPreview";
+import FirebaseFirestoreService from "../../FirebaseFirestoreService";
 function AddProductForm(props) {
+  const [imageUrl, setImageUrl] = useState("");
+
   function handleRecipeformsubmit(e) {
     handleAddProduct(e);
   }
@@ -28,6 +31,14 @@ function AddProductForm(props) {
     <div className="AddProductForm_container">
       <div className="AddProductForm_lis_container">
         <h1>אוסף מוצר לחנות</h1>
+        <ImageUploadPreview
+          basePath="product"
+          existingImageUrl={imageUrl}
+          handleUploadFinish={(downloadUrl) => {
+            setImageUrl(downloadUrl);
+          }}
+          handleUploadCancel={() => setImageUrl("")}
+        ></ImageUploadPreview>
         <div className="AddProductForm_list">
           <ul>
             <li>
@@ -45,7 +56,7 @@ function AddProductForm(props) {
             </li>
             <br />
             <li>
-              <input id="src" placeholder="הכנס קישור לתמונה"></input>
+              {/* <input id="src" placeholder="הכנס קישור לתמונה"></input> */}
             </li>
             <br />
             <li>
@@ -58,12 +69,13 @@ function AddProductForm(props) {
       <div className="">
         <button
           onClick={() => {
-            const image = document.getElementById("src").value;
+            console.log("ttttt" + imageUrl);
+            const image = imageUrl;
             const price = document.getElementById("price").value;
             const category = document.getElementById("category").value;
             const details = document.getElementById("details").value;
             const mcode = document.getElementById("mcode").value;
-            if (!image || !price || !category || !details === null) {
+            if (!price || !category || !details === null) {
               alert("You must fill in all fields");
             } else {
               alert("מוצר התווסף בהצלחה");

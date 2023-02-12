@@ -7,13 +7,13 @@ function Card(props) {
         {props.product.map((data, index) => (
           <div className="card-container" key={index}>
             <div className="lower-container">
-              <h3>{data.name}</h3>
-              <h4>{data.title}</h4>
+              <h3>{data.category}</h3>
 
               <section>
                 <img src={data.image} alt="none" height="300" width="300" />
               </section>
-              <p>{data.fBack}</p>
+              <h4>{data.details}</h4>
+              <h4> {data.price}:מחיר</h4>
               <button>להזמנה</button>
             </div>
           </div>

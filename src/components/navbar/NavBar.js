@@ -18,54 +18,25 @@ function Navbar({ titleNav, setTitleNav }) {
   return (
     <div>
       <nav className="nav">
-        <img src="image/logo.png" width="50px" />
         <div className="nav_title">
-          <h1 className="nav-brand">{titleNav}</h1>
+          <Link onClick={() => {}} to={"/"}>
+            <img src="image/logo.png" width="55px" />
+          </Link>
         </div>
         <ul className={active}>
           <li className="nav-item">
-            <Link
-              onClick={() => {
-                setTitleNav("מוצרים");
-                navToggle();
-              }}
-              to={"/"}
-            >
-              מוצרים
-            </Link>
+            <Link to={"/"}>מוצרים</Link>
           </li>
           <li className="nav-item">
-            <Link
-              onClick={() => {
-                setTitleNav("מבצעים");
-                navToggle();
-              }}
-              to={"/מבצעים"}
-            >
-              חבילות מבצע
-            </Link>
+            <Link to={"/מבצעים"}>חבילות מבצע</Link>
           </li>
           <li className="nav-item">
-            <Link
-              onClick={() => {
-                setTitleNav("כל המוצרים");
-                navToggle();
-              }}
-              to="/Gallery"
-              className="nav-link"
-            >
+            <Link to="/Gallery" className="nav-link">
               כל המוצרים
             </Link>
           </li>
           <li className="nav-item">
-            <Link
-              onClick={() => {
-                setTitleNav("עמוד הבית");
-                navToggle();
-              }}
-              to="/"
-              className="nav-link"
-            >
+            <Link to="/" className="nav-link">
               בית
             </Link>
           </li>
