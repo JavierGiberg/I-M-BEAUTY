@@ -4,7 +4,7 @@ import ImageUploadPreview from "./ImagesUploadPreview";
 import FirebaseFirestoreService from "../../FirebaseFirestoreService";
 function AddProductForm(props) {
   const [imageUrl, setImageUrl] = useState("");
-
+  const [existingProduct, setexistingProduct] = useState(null);
   function handleRecipeformsubmit(e) {
     handleAddProduct(e);
   }
@@ -25,6 +25,34 @@ function AddProductForm(props) {
         {colle.collection}
       </option>
     ));
+  }
+  async function handleDeleteProduct(productID) {
+    const deleteConfirmtion = window.confirm(
+      "are you sure you want to delete this recipe? OK for yes. Cancel fot NO"
+    );
+    if (deleteConfirmtion) {
+      try {
+        await FirebaseFirestoreService.deleteDocument("product", productID);
+
+        // handleFetchRecipes();
+        setexistingProduct(null);
+
+        window.scrollTo(0, 0);
+        alert(`successfuly delete a recipe with an ID = ${productID}`);
+      } catch (error) {
+        alert(error.message);
+        throw error;
+      }
+    }
+  }
+  function handleEditRecipeClick(productID) {
+    const selectedRecipe = props.product.find((product) => {
+      return product.id === productID;
+    });
+    if (selectedRecipe) {
+      setexistingProduct(selectedRecipe);
+      window.scrollTo(0, document.body.scrollHeight);
+    }
   }
 
   return (
@@ -55,23 +83,18 @@ function AddProductForm(props) {
               <input id="details" placeholder="הכנס פרטי מוצר"></input>
             </li>
             <br />
-            <li>
-              {/* <input id="src" placeholder="הכנס קישור לתמונה"></input> */}
-            </li>
-            <br />
+
             <li>
               <input id="price" placeholder="הכנס מחיר"></input>
             </li>
           </ul>
         </div>
       </div>
-
       <div className="">
         <button
           onClick={() => {
-            console.log("ttttt" + imageUrl);
             const image = imageUrl;
-            const price = document.getElementById("price").value;
+            const price = parseInt(document.getElementById("price").value);
             const category = document.getElementById("category").value;
             const details = document.getElementById("details").value;
             const mcode = document.getElementById("mcode").value;
@@ -93,6 +116,33 @@ function AddProductForm(props) {
           Add
         </button>
       </div>
+      {props.product.map((product, productID) => (
+        <div className="ProductForm_list" key={productID}>
+          <ul>
+            <li>{productID}</li>
+          </ul>
+          <ul>
+            <li>{product.category}</li>
+          </ul>
+          <ul>
+            <img src={product.image} width={"50px"} />
+          </ul>
+          <ul>
+            <li>{product.details} </li>
+          </ul>
+          <ul>
+            <li>{product.price} </li>
+          </ul>
+          <ul>
+            <button
+              type="button"
+              onClick={() => handleDeleteProduct(existingProduct.id)}
+            >
+              מחק
+            </button>
+          </ul>
+        </div>
+      ))}
     </div>
   );
 }

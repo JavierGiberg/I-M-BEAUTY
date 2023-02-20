@@ -96,7 +96,7 @@ function ImageUploadPreview({
       ) : null}
       {imageUrl ? (
         <div className="image-preview">
-          <img src={imageUrl} alt={imageUrl} className="image" />
+          <img src={imageUrl} alt={imageUrl} className="image" width={"70px"} />
           <button
             type="button"
             onClick={handleCancelImageClick}

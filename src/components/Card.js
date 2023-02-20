@@ -14,7 +14,9 @@ function Card(props) {
               </section>
               <h4>{data.details}</h4>
               <h4> {data.price}:מחיר</h4>
-              <button>להזמנה</button>
+              <button onClick={() => props.handleAddToCart(data)}>
+                אוסף לסל
+              </button>
             </div>
           </div>
         ))}

@@ -9,6 +9,7 @@ import Card from "./components/Card";
 import { FaArrowsAltH } from "react-icons/fa";
 import AddProductForm from "./components/Manager/AddProductForm";
 import firebase from "./FirebaseConfig";
+import ShoppingCart from "./components/ShoppingCart";
 //Developed by Javier Giberg
 function App() {
   const [product, setProduct] = useState([]);
@@ -49,6 +50,29 @@ function App() {
       collection: "SCHWARTZ",
     },
   ]);
+  const [cartItems, setCartItems] = useState([]);
+  const [cartTotal, setCartTotal] = useState(0);
+
+  const handleAddToCart = (item) => {
+    setCartItems([...cartItems, item]);
+    setCartTotal(cartTotal + item.price);
+  };
+
+  const handleRemoveItem = (item) => {
+    var toRemove = item;
+    var index = cartItems.indexOf(toRemove);
+    if (index > -1) {
+      cartItems.splice(index, 1);
+      setCartItems(cartItems);
+      var price = cartTotal - item.price;
+      console.log(price.toFixed(1));
+      setCartTotal(price.toFixed(1));
+    }
+  };
+
+  const handleCheckout = () => {
+    // Handle checkout logic
+  };
 
   const db = firebase.firestore();
 
@@ -105,7 +129,7 @@ function App() {
         <div className="footer">
           <div className="card">
             <FaArrowsAltH size="50px" />
-            <Card product={product} />
+            <Card product={product} handleAddToCart={handleAddToCart} />
           </div>
           <Footer />
         </div>
@@ -135,6 +159,7 @@ function App() {
           path="/Gallery"
           element={
             <Gallery
+              handleAddToCart={handleAddToCart}
               product={product}
               sortlist={sortlist}
               columnCount="2"
@@ -143,8 +168,19 @@ function App() {
           }
         />
         <Route
+          path="/ShoppingCart"
+          element={
+            <ShoppingCart
+              items={cartItems}
+              total={cartTotal}
+              removeItem={handleRemoveItem}
+              checkout={handleCheckout}
+            />
+          }
+        />
+        <Route
           path="/AddProduct"
-          element={<AddProductForm sortlist={sortlist} />}
+          element={<AddProductForm sortlist={sortlist} product={product} />}
         />
       </Routes>
     </Router>

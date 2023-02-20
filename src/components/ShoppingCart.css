@@ -1,0 +1,12 @@
+.ShoppingCart{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+    margin-top: 100px;
+   
+}
+.ShoppingCart_product{
+display: flex;
+flex-direction: column;
+align-items: center;
+}

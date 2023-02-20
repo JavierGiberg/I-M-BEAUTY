@@ -25,7 +25,7 @@ function Navbar({ titleNav, setTitleNav }) {
         </div>
         <ul className={active}>
           <li className="nav-item">
-            <Link to={"/"}>מוצרים</Link>
+            <Link to={"/ShoppingCart"}>עגלת קניות</Link>
           </li>
           <li className="nav-item">
             <Link to={"/מבצעים"}>חבילות מבצע</Link>

@@ -50,18 +50,9 @@ function Gallery(props) {
           <h2>{tempPic.category}</h2>
           <h2>{tempPic.details}</h2>
           <h2>{tempPic.price}: מחיר</h2>
-          <h2
-            onClick={() => {
-              setImageBoll(false);
-            }}
-          >
-            Back
-          </h2>
-          <h2>Send message</h2>
-
-          <a href="https://wa.me/000000000">
-            <img src="image/whatsapp.png" width="100px" alt="" />
-          </a>
+          <button onClick={() => props.handleAddToCart(tempPic)}>
+            אוסף לסל
+          </button>
         </div>
       </div>
     );
