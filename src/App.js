@@ -10,6 +10,7 @@ import { FaArrowsAltH } from "react-icons/fa";
 import AddProductForm from "./components/Manager/AddProductForm";
 import firebase from "./FirebaseConfig";
 import ShoppingCart from "./components/ShoppingCart";
+import FirebaseFirestoreService from "./FirebaseFirestoreService";
 //Developed by Javier Giberg
 function App() {
   const [product, setProduct] = useState([]);
@@ -55,7 +56,16 @@ function App() {
 
   const handleAddToCart = (item) => {
     setCartItems([...cartItems, item]);
-    setCartTotal(cartTotal + item.price);
+    var price = 0;
+    if (cartTotal == 0 || cartTotal == 0.0) {
+      setCartTotal(item.price);
+    } else {
+      for (let i = 0; i < cartItems.length; i++) {
+        price += cartItems[i].price;
+      }
+      setCartTotal(price.toFixed(1));
+    }
+    console.log(price);
   };
 
   const handleRemoveItem = (item) => {
@@ -63,9 +73,13 @@ function App() {
     var index = cartItems.indexOf(toRemove);
     if (index > -1) {
       cartItems.splice(index, 1);
+      console.log(cartItems);
+      var price = 0;
+      for (let i = 0; i < cartItems.length; i++) {
+        price += cartItems[i].price;
+      }
+
       setCartItems(cartItems);
-      var price = cartTotal - item.price;
-      console.log(price.toFixed(1));
       setCartTotal(price.toFixed(1));
     }
   };
@@ -77,18 +91,39 @@ function App() {
   const db = firebase.firestore();
 
   useEffect(() => {
-    db.collection("product")
-      .get()
-      .then((snapshot) => {
-        if (snapshot.docs.length > 0) {
-          snapshot.docs.forEach((doc) => {
-            setProduct((prev) => {
-              return [...prev, doc.data()];
-            });
-          });
-        }
+    fetchProduct().then((fetchedProduct) => {
+      setProduct(fetchedProduct);
+    });
+  }, []);
+
+  async function fetchProduct() {
+    let fechedtProduct = [];
+
+    try {
+      const response = await FirebaseFirestoreService.readDocuments("product");
+
+      const newProduct = response.docs.map((productDoc) => {
+        const id = productDoc.id;
+        const data = productDoc.data();
+
+        return { ...data, id };
       });
-  }, [db]);
+      fechedtProduct = [...newProduct];
+    } catch (error) {
+      throw error;
+    }
+    return fechedtProduct;
+  }
+
+  async function handleFetchProduct() {
+    try {
+      const fetchedProduct = await fetchProduct();
+
+      setProduct(fetchedProduct);
+    } catch (error) {
+      throw error;
+    }
+  }
 
   const Home = () => {
     return (
@@ -97,7 +132,13 @@ function App() {
           <Slider picC={product} />
         </section>
         <div className="main">
-          <img alt="Pic" src="image/test2.jpg" />
+          <img
+            onClick={() => {
+              console.log(product[2].id);
+            }}
+            alt="Pic"
+            src="image/test2.jpg"
+          />
 
           <div className="titlesMains">
             <div className="titlesMain">
@@ -180,7 +221,13 @@ function App() {
         />
         <Route
           path="/AddProduct"
-          element={<AddProductForm sortlist={sortlist} product={product} />}
+          element={
+            <AddProductForm
+              sortlist={sortlist}
+              product={product}
+              handleFetchProduct={handleFetchProduct}
+            />
+          }
         />
       </Routes>
     </Router>

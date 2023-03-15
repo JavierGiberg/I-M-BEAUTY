@@ -6,7 +6,7 @@ const createDocument = (collection, document) => {
   return firestore.collection(collection).add(document);
 };
 
-const readDocuments = async ({ collection }) => {
+const readDocuments = async (collection) => {
   let collectionRef = firestore.collection(collection);
   return collectionRef.get();
 };
@@ -16,7 +16,9 @@ const updateDocument = (collection, id, document) => {
 };
 
 const deleteDocument = (collection, id) => {
-  return firestore.collection(collection).doc(id).delete;
+  console.log(collection);
+  console.log(id);
+  return firestore.collection(collection).doc(id).delete();
 };
 
 const FirebaseFirestoreService = {

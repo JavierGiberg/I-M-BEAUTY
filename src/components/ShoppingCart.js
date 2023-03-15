@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./ShoppingCart.css";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
 function ShoppingCart(props) {
+  useEffect(() => {});
+
   return (
     <div className="ShoppingCart">
       <h1>סל קניות</h1>

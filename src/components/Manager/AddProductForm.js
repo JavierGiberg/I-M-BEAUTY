@@ -5,6 +5,7 @@ import FirebaseFirestoreService from "../../FirebaseFirestoreService";
 function AddProductForm(props) {
   const [imageUrl, setImageUrl] = useState("");
   const [existingProduct, setexistingProduct] = useState(null);
+  const [inputValue, setInputValue] = useState("aaaaa");
   function handleRecipeformsubmit(e) {
     handleAddProduct(e);
   }
@@ -18,6 +19,10 @@ function AddProductForm(props) {
     } catch (error) {
       alert(error);
     }
+    props.handleFetchProduct();
+    setImageUrl("");
+    setexistingProduct(null);
+    setInputValue("bbbbb");
   }
   function Filter(props) {
     return props.filter.map((colle, index) => (
@@ -27,18 +32,17 @@ function AddProductForm(props) {
     ));
   }
   async function handleDeleteProduct(productID) {
-    const deleteConfirmtion = window.confirm(
-      "are you sure you want to delete this recipe? OK for yes. Cancel fot NO"
-    );
+    const deleteConfirmtion = window.confirm("האם אתה בטוח שאתה מוחק מוצר זה?");
     if (deleteConfirmtion) {
       try {
         await FirebaseFirestoreService.deleteDocument("product", productID);
 
-        // handleFetchRecipes();
+        props.handleFetchProduct();
         setexistingProduct(null);
 
         window.scrollTo(0, 0);
-        alert(`successfuly delete a recipe with an ID = ${productID}`);
+        alert(`מוצר נחמק בהצלחה = ${productID}`);
+        console.log(productID);
       } catch (error) {
         alert(error.message);
         throw error;
@@ -76,7 +80,7 @@ function AddProductForm(props) {
             </li>
             <br />
             <li>
-              <input id="mcode" placeholder="הכנס מק'ט מוצר"></input>
+              <input id="mcode" placeholder={inputValue}></input>
             </li>
             <br />
             <li>
@@ -116,33 +120,62 @@ function AddProductForm(props) {
           Add
         </button>
       </div>
-      {props.product.map((product, productID) => (
-        <div className="ProductForm_list" key={productID}>
-          <ul>
-            <li>{productID}</li>
-          </ul>
-          <ul>
-            <li>{product.category}</li>
-          </ul>
-          <ul>
-            <img src={product.image} width={"50px"} />
-          </ul>
-          <ul>
-            <li>{product.details} </li>
-          </ul>
-          <ul>
-            <li>{product.price} </li>
-          </ul>
-          <ul>
-            <button
-              type="button"
-              onClick={() => handleDeleteProduct(existingProduct.id)}
-            >
-              מחק
-            </button>
-          </ul>
-        </div>
-      ))}
+      <div className="AddProductForm_product">
+        {props.product.map((productmap, productID) => (
+          // <div className="ProductForm_list" key={productID}>
+          //   <ul>
+          //     <li>{productID}</li>
+          //   </ul>
+          //   <ul>
+          //     <li>{productmap.category}</li>
+          //   </ul>
+          //   <ul>
+          //     <img src={productmap.image} width={"50px"} />
+          //   </ul>
+          //   <ul>
+          //     <li>{productmap.details} </li>
+          //   </ul>
+          //   <ul>
+          //     <li>{productmap.price} </li>
+          //   </ul>
+          //   <ul>
+          //     <button
+          //       type="button"
+          //       onClick={() => handleDeleteProduct(productmap.id)}
+          //     >
+          //       מחק
+          //     </button>
+          //   </ul>
+          // </div>
+          <div className="container_products" key={productID}>
+            {productID}
+            <div>
+              <div className="item_pic_products">
+                <img
+                  src={productmap.image}
+                  alt="image"
+                  className="image_products"
+                />
+              </div>
+              <div className="details_main_container">
+                <div className="details_main_products">
+                  <section> : פרטים</section>
+                  <section>{productmap.details}</section>
+                  <section>{productmap.price} : מחיר</section>
+                </div>
+
+                <button className="buy_button_products">ערוך מוצר</button>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteProduct(productmap.id)}
+                >
+                  מחק מוצר
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
